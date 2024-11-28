@@ -137,7 +137,7 @@ public class Main {
             i++;}
 
     }
-
+    //ciao
 
     private static void createDiscente () {
         System.out.println("inserisci nome: ");
