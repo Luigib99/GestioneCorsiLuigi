@@ -2,6 +2,9 @@ package view;
 
 import model.*;
 import service.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -18,7 +21,8 @@ public class Main {
             System.out.println("Scegli se visualizzare il menu:");
             System.out.println("1. DISCENTE");
             System.out.println("2. DOCENTE");
-            System.out.println("3. CHIUDI PROGRAMMA");
+            System.out.println("3. CORSO");
+            System.out.println("4. CHIUDI PROGRAMMA");
             choice1 = scanner.nextInt();
 
             //DISCENTE
@@ -111,15 +115,68 @@ public class Main {
                 while (choice2 != 8 && choice2!=9);
             }
 
+            //CORSO
+
+            else if (choice1 == 3)
+            {
+                do
+                {
+                    System.out.println("Classe corso");
+                    System.out.println("***Menu***");
+                    System.out.println("1. Crea un nuovo corso");
+                    System.out.println("8. Torna alla scelta");
+                    System.out.println("9. Exit");
+                    System.out.print("inserisci la tua scelta: ");
+
+                    choice2 = scanner.nextInt();
+
+                    switch (choice2) {
+                        case 1:
+                            createCorso();
+                            break;
+                        case 8:
+                            System.out.println("INDIETRO");
+                            break;
+                        case 9:
+                            System.out.println("exiting");
+                            choice1=4;
+                            break;
+                        default:
+                            System.out.println("scelta errata. scegliere un numero da 1 a 8");
+                    }
+                }
+                while (choice2 != 8 && choice2!=9);
+            }
+
             //NUMERO SBAGLIATO
 
-            else if (choice1 >3 || choice1<0)
+            else
             {
                 System.out.println("scelta errata. scegliere un numero da 1 a 3");
             }
         }
-        while (choice1 != 3);
+        while (choice1 != 4);
         scanner.close();
+    }
+
+    private static void createCorso()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("inserisci il nome del corso");
+        String nomeCorso = scanner.next();
+        System.out.println("inserisci la data di inizio del corso");
+        String dataInizio = scanner.next();
+        System.out.println("inserisci la durata del corso");
+        String durataCorso = scanner.next();
+        System.out.println("Scegli il docente inserendo il nome del suo id");
+        readDocente();
+
+        scanner.nextLine();
+        int idDocente = scanner.nextInt();
+
+        CorsoService corsoService = new CorsoService();
+        corsoService.createCorso(nomeCorso, dataInizio, durataCorso, idDocente);
     }
 
     private static void readDiscente()
@@ -137,7 +194,7 @@ public class Main {
             i++;}
 
     }
-    //ciao
+
 
     private static void createDiscente () {
         System.out.println("inserisci nome: ");

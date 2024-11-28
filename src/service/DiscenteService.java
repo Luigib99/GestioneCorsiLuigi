@@ -1,14 +1,10 @@
 package service;
-
 import model.Discente;
 import repository.DiscenteRepository;
-
 import java.util.List;
 
 public class DiscenteService {
     DiscenteRepository discenteRepository = new DiscenteRepository();
-
-
 
     public void create(String nome, String cognome, String matricola, String dataNascita) {
         Discente discente = new Discente();

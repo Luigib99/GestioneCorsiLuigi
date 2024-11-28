@@ -1,5 +1,4 @@
 package repository;
-
 import config.DbConnection;
 import model.Discente;
 import java.sql.*;
