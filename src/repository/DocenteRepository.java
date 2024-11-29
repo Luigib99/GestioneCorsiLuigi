@@ -21,7 +21,6 @@ public class DocenteRepository {
     }
 
 
-
     public ArrayList<Docente> readDocente () {
             ArrayList<Docente> listaDocenti = new ArrayList<>();
             try {

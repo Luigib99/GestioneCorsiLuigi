@@ -7,7 +7,9 @@ public class Corso {
     private String dataInizio;
     private String durataCorso;
     private int idDocente;
+    private Docente docente;
     private int idCorso;
+
 
     public void setNomeCorso(String nomeCorso)
     {
@@ -49,13 +51,17 @@ public class Corso {
         return idDocente;
     }
 
-    public void getIdCorso (int id)
-    {
-        this.idCorso = idCorso;
-    }
+    public Docente getDocente () {return docente;}
 
-    public int setIdCorso ()
+    public void setDocente (Docente docente)  {this.docente = docente;}
+
+    public int getIdCorso ()
     {
         return idCorso;
+    }
+
+    public void setIdCorso (int id)
+    {
+        this.idCorso = id;
     }
 }

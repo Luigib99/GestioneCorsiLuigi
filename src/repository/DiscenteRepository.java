@@ -11,16 +11,12 @@ public class DiscenteRepository {
             Connection c = DbConnection.openConnection();
             System.out.println("Connessione riuscita!");
             Statement stmt = c.createStatement();
-            stmt.execute("INSERT INTO DiscenteTest VALUES('" + discente.getNome() + "','"
-                                                                  + discente.getCognome()+ "','"
-                                                                  + discente.getDataNascita()+ "','"
-                                                                  + discente.getMatricola() + "')");
+            stmt.execute("INSERT INTO DiscenteTest VALUES('" + discente.getNome() + "','" + discente.getCognome()+ "','" + discente.getDataNascita()+ "','" + discente.getMatricola() + "')");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());
             System.exit(0);
         }
     }
-
 
     public ArrayList<Discente> readDiscente() {
         ArrayList<Discente> listaDiscenti = new ArrayList<>();
@@ -65,11 +61,7 @@ public class DiscenteRepository {
             Connection c = DbConnection.openConnection();
             System.out.println("Connessione riuscita!");
             Statement stmt = c.createStatement();
-            stmt.execute("UPDATE DiscenteTest SET nome='" + discente.getNome() + "', " +
-                    "cognome='" + discente.getCognome()+ "', " +
-                    "matricola='" + discente.getMatricola () + "', " +
-                    "dataNascita='" + discente.getDataNascita () + "', " +
-                    "WHERE id =" + discente.getid());
+            stmt.execute("UPDATE DiscenteTest SET nome='" + discente.getNome() + "', " + "cognome='" + discente.getCognome()+ "', " + "matricola='" + discente.getMatricola () + "', " + "dataNascita='" + discente.getDataNascita () + "', " + "WHERE id =" + discente.getid());
             System.out.println("model.dao.Discente aggiornato");
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e.getMessage());

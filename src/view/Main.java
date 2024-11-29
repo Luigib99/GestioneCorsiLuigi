@@ -124,6 +124,9 @@ public class Main {
                     System.out.println("Classe corso");
                     System.out.println("***Menu***");
                     System.out.println("1. Crea un nuovo corso");
+                    System.out.println("2. Aggiorna un corso");
+                    System.out.println("3. Guarda i corsi");
+                    System.out.println("4. Elimina corso");
                     System.out.println("8. Torna alla scelta");
                     System.out.println("9. Exit");
                     System.out.print("inserisci la tua scelta: ");
@@ -133,6 +136,15 @@ public class Main {
                     switch (choice2) {
                         case 1:
                             createCorso();
+                            break;
+                        case 2:
+                            updateCorso();
+                            break;
+                        case 3:
+                            readCorso();
+                            break;
+                        case 4:
+                            deleteCorso();
                             break;
                         case 8:
                             System.out.println("INDIETRO");
@@ -159,94 +171,165 @@ public class Main {
         scanner.close();
     }
 
-    private static void createCorso()
-    {
+    //CORSO
+
+    private static void createCorso() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("inserisci il nome del corso");
-        String nomeCorso = scanner.next();
+        String nomeCorso = scanner.nextLine();
         System.out.println("inserisci la data di inizio del corso");
-        String dataInizio = scanner.next();
+        String dataInizio = scanner.nextLine();
         System.out.println("inserisci la durata del corso");
-        String durataCorso = scanner.next();
+        String durataCorso = scanner.nextLine();
         System.out.println("Scegli il docente inserendo il nome del suo id");
         readDocente();
-
         scanner.nextLine();
         int idDocente = scanner.nextInt();
+        DocenteService DocenteService = new DocenteService();
+        List<Docente> listaDocenti= DocenteService.readDocente();
+        for (int i = 0; i < listaDocenti.size(); i++)
+        {
+            if (listaDocenti.get(i).getid() == idDocente)
+            {
+                Docente docente = listaDocenti.get(i);
+                CorsoService corsoService = new CorsoService();
+                corsoService.createCorso(nomeCorso, dataInizio, durataCorso, idDocente, docente);
+            }
+        }
+        }
 
-        CorsoService corsoService = new CorsoService();
-        corsoService.createCorso(nomeCorso, dataInizio, durataCorso, idDocente);
-    }
+        private static void readCorso ()
+        {
+            System.out.println("ecco la lista dei corsi: ");
+            CorsoService corsoService = new CorsoService();
+            List<Corso> listaCorsi = corsoService.readCorso();
+            int i = 0;
+            while (i < listaCorsi.size()) {
+                System.out.println(listaCorsi.get(i).getIdCorso() + " " +
+                        listaCorsi.get(i).getNomeCorso() + " " +
+                        listaCorsi.get(i).getDataInizio() + " " +
+                        listaCorsi.get(i).getDurataCorso() + " " +
+                        listaCorsi.get(i).getDocente());
+                i++;
+            }
+        }
 
-    private static void readDiscente()
-    {
-        System.out.println("ecco la lista dei discenti: ");
-        DiscenteService discenteService = new DiscenteService();
-        List<Discente> listaDiscenti= discenteService.readDiscente();
-        int i = 0;
-        while(i<listaDiscenti.size()){
-            System.out.println(listaDiscenti.get(i).getid()+" "+
-                               listaDiscenti.get(i).getCognome()+" "+
-                               listaDiscenti.get(i).getNome() +" "+
-                               listaDiscenti.get(i).getMatricola() + " " +
-                               listaDiscenti.get(i).getDataNascita());
-            i++;}
+        private static void deleteCorso ()
+        {
+            System.out.println("Elimina il corso con id: ");
+            Scanner scanner = new Scanner(System.in);
+            int id = scanner.nextInt();
+            CorsoService corsoService = new CorsoService();
+            corsoService.deleteCorso(id);
+        }
 
-    }
-
-
-    private static void createDiscente () {
-        System.out.println("inserisci nome: ");
+    private static void updateCorso () {
         Scanner scanner = new Scanner(System.in);
-        String nome = scanner.next();
-        System.out.println("inserisci cognome: ");
-        String cognome = scanner.next();
-        System.out.println("inserisci matricola: ");
-        String matricola = scanner.next();
-        System.out.println("inserisci la data di nascita: ");
-        String dataNascita = scanner.next();
-        DiscenteService discenteService = new DiscenteService();
-        discenteService.create(nome, cognome, matricola, dataNascita);
-
+        System.out.println("inserisci l'id del corso da modificare:");
+        readCorso();
+        int idCorso = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("inserisci il nuovo nome del corso:");
+        String nomeCorso = scanner.nextLine();
+        System.out.println("inserisci la nuova data di inizio del corso:");
+        String dataInizio = scanner.nextLine();
+        System.out.println("inserisci la nuova durata del corso:");
+        String durataCorso = scanner.nextLine();
+        System.out.println("inserisci il nuovo docente dalla lista:");
+        readDocente();
+        scanner.nextLine();
+        int idDocente = scanner.nextInt();
+        DocenteService DocenteService = new DocenteService();
+        List<Docente> listaDocenti= DocenteService.readDocente();
+        for (int i = 0; i < listaDocenti.size(); i++)
+        {
+            if (listaDocenti.get(i).getid() == idDocente)
+            {
+                Docente docente = listaDocenti.get(i);
+                CorsoService corsoService = new CorsoService();
+                corsoService.updateCorso(idCorso, nomeCorso, dataInizio, durataCorso, idDocente);
+            }
+        }
     }
 
-    private static void deleteDiscente () {
-        System.out.println("Elimina il discente con id: ");
-        Scanner scanner = new Scanner(System.in);
-        int id = scanner.nextInt();
-        DiscenteService discenteService = new DiscenteService();
-        discenteService.delete(id);
 
-    }
 
-    private static void updateDiscente () {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("inserisci l'id del discente da modificare:");
-        int id = scanner.nextInt();
-        System.out.println("inserisci il nuovo nome:");
-        String nome = scanner.next();
-        System.out.println("inserisci il nuovo cognome:");
-        String cognome = scanner.next();
-        System.out.println("inserisci la nuova matricola:");
-        String matricola = scanner.next();
-        System.out.println("inserisci la nuova data di nascita:");
-        String dataNascita = scanner.next();
-        DiscenteService discenteService = new DiscenteService();
-        discenteService.update(id, nome, cognome, matricola, dataNascita);
 
-    }
 
-    private static void readDocente() {
-        System.out.println("ecco la lista dei docenti: ");
-        DocenteService oDocenteService = new DocenteService();
-        List<Docente> listaDocenti= oDocenteService.readDocente();
-        int i = 0;
-        while(i<listaDocenti.size()){
-            System.out.println(listaDocenti.get(i).getid()+" "+listaDocenti.get(i).getCognome()+" "+listaDocenti.get(i).getNome());
-            i++;}
 
-    }
+        //DISCENTE
+
+        private static void readDiscente ()
+        {
+            System.out.println("ecco la lista dei discenti: ");
+            DiscenteService discenteService = new DiscenteService();
+            List<Discente> listaDiscenti = discenteService.readDiscente();
+            int i = 0;
+            while (i < listaDiscenti.size()) {
+                System.out.println(listaDiscenti.get(i).getid() + " " +
+                        listaDiscenti.get(i).getCognome() + " " +
+                        listaDiscenti.get(i).getNome() + " " +
+                        listaDiscenti.get(i).getMatricola() + " " +
+                        listaDiscenti.get(i).getDataNascita());
+                i++;
+            }
+
+        }
+
+
+        private static void createDiscente () {
+            System.out.println("inserisci nome: ");
+            Scanner scanner = new Scanner(System.in);
+            String nome = scanner.next();
+            System.out.println("inserisci cognome: ");
+            String cognome = scanner.next();
+            System.out.println("inserisci matricola: ");
+            String matricola = scanner.next();
+            System.out.println("inserisci la data di nascita: ");
+            String dataNascita = scanner.next();
+            DiscenteService discenteService = new DiscenteService();
+            discenteService.create(nome, cognome, matricola, dataNascita);
+        }
+
+        private static void deleteDiscente () {
+            System.out.println("Elimina il discente con id: ");
+            Scanner scanner = new Scanner(System.in);
+            int id = scanner.nextInt();
+            DiscenteService discenteService = new DiscenteService();
+            discenteService.delete(id);
+
+        }
+
+        private static void updateDiscente () {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("inserisci l'id del discente da modificare:");
+            int id = scanner.nextInt();
+            System.out.println("inserisci il nuovo nome:");
+            String nome = scanner.next();
+            System.out.println("inserisci il nuovo cognome:");
+            String cognome = scanner.next();
+            System.out.println("inserisci la nuova matricola:");
+            String matricola = scanner.next();
+            System.out.println("inserisci la nuova data di nascita:");
+            String dataNascita = scanner.next();
+            DiscenteService discenteService = new DiscenteService();
+            discenteService.update(id, nome, cognome, matricola, dataNascita);
+        }
+
+        //DOCENTE
+
+        private static void readDocente () {
+            System.out.println("ecco la lista dei docenti: ");
+            DocenteService oDocenteService = new DocenteService();
+            List<Docente> listaDocenti = oDocenteService.readDocente();
+            int i = 0;
+            while (i < listaDocenti.size()) {
+                System.out.println(listaDocenti.get(i).getid() + " " + listaDocenti.get(i).getCognome() + " " + listaDocenti.get(i).getNome());
+                i++;
+            }
+
+        }
 
 
         private static void createDocente () {
@@ -281,5 +364,6 @@ public class Main {
             oDocenteService.update(id, nome, cognome);
 
         }
+
 
 }
